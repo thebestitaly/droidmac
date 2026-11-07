@@ -1,0 +1,7 @@
+#!/bin/sh
+# getprop finto per tests/fake_adb.py
+case "$1" in
+  ro.product.manufacturer) echo google ;;
+  ro.product.model) echo "Pixel Fake" ;;
+  ro.build.version.release) echo 15 ;;
+esac

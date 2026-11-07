@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="dm-token" content="__DROIDMAC_TOKEN__">
+  <title>DroidMac</title>
+  <link rel="icon" href="/static/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <img class="logo" src="/static/icon.svg" alt="" width="28" height="28">
+      <b>DroidMac</b><span id="version" class="muted ver"></span>
+    </div>
+    <div class="device">
+      <span id="dev-dot" class="dot"></span>
+      <select id="dev-select" aria-label="Dispositivo"></select>
+      <span id="dev-meta" class="muted"></span>
+    </div>
+    <div id="dev-storage" class="storage" hidden>
+      <div class="bar"><i></i></div>
+      <span></span>
+    </div>
+    <div class="spacer"></div>
+    <label class="opt" title="Se un file con lo stesso nome e la stessa dimensione esiste già nella destinazione, non viene ricopiato. Se il nome coincide ma la dimensione no, la copia viene salvata come “nome (1)”.">
+      <input type="checkbox" id="opt-skip"> Salta file identici
+    </label>
+    <button class="btn ghost" id="btn-wifi" title="Collega il telefono via Wi‑Fi (Debug wireless)">Wi‑Fi</button>
+    <button class="btn ghost" id="btn-jobs" title="Trasferimenti">Trasferimenti <span id="jobs-badge" class="badge" hidden></span></button>
+  </header>
+
+  <div id="banner" class="banner" hidden></div>
+
+  <main class="panes">
+    <section class="pane" id="pane-phone" data-side="phone"></section>
+    <section class="pane" id="pane-mac" data-side="mac"></section>
+  </main>
+
+  <section id="jobs" class="jobs" hidden>
+    <div class="jobs-head">
+      <b>Trasferimenti</b>
+      <span class="spacer"></span>
+      <button class="btn ghost small" id="jobs-clear">Pulisci completati</button>
+      <button class="btn ghost small icon" id="jobs-close" aria-label="Chiudi">✕</button>
+    </div>
+    <div id="jobs-list" class="jobs-list"></div>
+  </section>
+
+  <div id="viewer" class="viewer" hidden>
+    <div class="v-top">
+      <div class="v-title"><b class="v-name"></b><span class="v-meta"></span></div>
+      <span class="v-sel-count"></span>
+      <button class="btn v-sel" title="Seleziona (S)">Seleziona</button>
+      <button class="btn icon v-close" title="Chiudi (Esc o Spazio)" aria-label="Chiudi">✕</button>
+    </div>
+    <button class="v-nav prev" title="Precedente (←)" aria-label="Precedente"><svg viewBox="0 0 20 20"><path d="M12 4l-6 6 6 6"/></svg></button>
+    <div class="v-stage"></div>
+    <button class="v-nav next" title="Successivo (→)" aria-label="Successivo"><svg viewBox="0 0 20 20"><path d="M8 4l6 6-6 6"/></svg></button>
+    <div class="v-hint">← → scorri · S seleziona · Esc chiudi</div>
+  </div>
+
+  <dialog id="modal"><form method="dialog" id="modal-form"></form></dialog>
+  <div id="toasts" class="toasts" aria-live="polite"></div>
+
+  <template id="pane-tpl">
+    <div class="pane-head">
+      <div class="pane-title"><span class="pane-ico"></span><b></b></div>
+      <div class="tools">
+        <button class="btn icon" data-act="back" title="Indietro (⌫)"><svg viewBox="0 0 20 20"><path d="M12 4l-6 6 6 6"/></svg></button>
+        <button class="btn icon" data-act="up" title="Cartella superiore (⌘↑)"><svg viewBox="0 0 20 20"><path d="M10 16V4M4 10l6-6 6 6"/></svg></button>
+        <button class="btn icon" data-act="reload" title="Aggiorna (⌘R)"><svg viewBox="0 0 20 20"><path d="M16 10a6 6 0 1 1-2-4.5M16 3v4h-4"/></svg></button>
+        <button class="btn icon" data-act="mkdir" title="Nuova cartella (⇧⌘N)"><svg viewBox="0 0 20 20"><path d="M2 6h6l2 2h8v8H2zM10 10v4M8 12h4"/></svg></button>
+        <button class="btn icon phone-only" data-act="rename" title="Rinomina (F2)"><svg viewBox="0 0 20 20"><path d="M3 17h4L17 7l-4-4L3 13zM11 5l4 4"/></svg></button>
+        <button class="btn icon mac-only" data-act="reveal" title="Mostra nel Finder"><svg viewBox="0 0 20 20"><path d="M3 4h14v12H3zM3 8h14"/></svg></button>
+        <button class="btn icon" data-act="hidden" title="Mostra file nascosti"><svg viewBox="0 0 20 20"><path d="M1 10s3-6 9-6 9 6 9 6-3 6-9 6-9-6-9-6z"/><circle cx="10" cy="10" r="2.5"/></svg></button>
+        <input class="filter" type="search" placeholder="Filtra…" aria-label="Filtra">
+      </div>
+    </div>
+    <nav class="crumbs"></nav>
+    <div class="places"></div>
+    <div class="cols">
+      <span class="c-check"><input type="checkbox" class="all" aria-label="Seleziona tutto"></span>
+      <button class="c-name" data-sort="name">Nome</button>
+      <button class="c-size" data-sort="size">Dimensione</button>
+      <button class="c-date" data-sort="mtime">Modificato</button>
+    </div>
+    <div class="list" tabindex="0"></div>
+    <footer class="pane-foot">
+      <div class="summary"></div>
+      <div class="actions"></div>
+    </footer>
+  </template>
+
+  <script type="module" src="/static/js/app.js"></script>
+</body>
+</html>
